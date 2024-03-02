@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -30,9 +31,16 @@ public class CricketServices {
 
 
 
-    public ResponseEntity<String> liveScores(@RequestParam String id) {
+    public ResponseEntity<String> liveScores(@RequestParam String link) {
         try {
-            String url = Utility.VERCEL + "score?id=" + id;
+                StringBuilder sb = new StringBuilder();
+                for( char a : link.toCharArray()){
+                    if(Character.isDigit(a)){
+                        sb.append(a);
+                    }
+                }
+           String matchID = sb.substring(0,5);
+            String url = Utility.VERCEL + "score?id=" + matchID;
             String responseData = restTemplate.getForObject(url, String.class);
             return ResponseEntity.ok(responseData);
         } catch (HttpClientErrorException.NotFound e) {
