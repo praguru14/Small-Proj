@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cricket Live Score</title>
+</head>
+<body>
+<h1>Get Live Cricket Score</h1>
+<form action="#" th:action="@{/cricket/live}" th:object="${link}" method="get">
+    <p>Enter Match URL:</p>
+    <input type="text" th:field="*{id}" required>
+    <button type="submit">Get Live Score</button>
+</form>
+<div th:if="${liveScore}">
+    <h2>Live Score</h2>
+    <pre th:text="${liveScore}" th:remove="tag"></pre>
+</div>
+<div th:if="${error}">
+    <p th:text="${error}" style="color: red;"></p>
+</div>
+</body>
+</html>
