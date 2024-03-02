@@ -9,4 +9,6 @@ public class Utility {
     public static final String URL = "https://api.openf1.org/v1/sessions";
     public static final String DRIVER_NAME =  "https://api.openf1.org/v1/drivers?last_name=";
     public static final String DRIVER ="https://api.openf1.org/v1/drivers" ;
+
+    public static final String VERCEL= "https://api-data-five.vercel.app/";
 }
