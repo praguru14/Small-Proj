@@ -33,14 +33,17 @@ public class CricketServices {
 
     public ResponseEntity<String> liveScores(@RequestParam String link) {
         try {
+            System.out.println(link);
                 StringBuilder sb = new StringBuilder();
                 for( char a : link.toCharArray()){
                     if(Character.isDigit(a)){
                         sb.append(a);
                     }
                 }
+            System.out.println(sb);
            String matchID = sb.substring(0,5);
             String url = Utility.VERCEL + "score?id=" + matchID;
+            System.out.println(url);
             String responseData = restTemplate.getForObject(url, String.class);
             return ResponseEntity.ok(responseData);
         } catch (HttpClientErrorException.NotFound e) {

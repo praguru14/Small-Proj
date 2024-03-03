@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Template</title>
+
+    <style th:inline="css">
+        body {
+            background-color: #808080; /* Grey background color */
+        }
+
+        /* Style for the response container */
+        #responseContainer {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-height: 300px; /* Limit height for vertical scrolling */
+            overflow-x: auto; /* Enable vertical scrolling if content overflows */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script th:inline="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:inline="javascript">
+        function hello() {
+            // Retrieve the value of the input field with id "urlInput1"
+            var inputValue = document.getElementById("urlInput1").value;
+
+            // Remove all occurrences of ":" and "//" from the input URL
+            var cleanedValue = inputValue.replace(/[:/]/g, '');
+
+            // Check if cleanedValue is empty
+            if (!cleanedValue.trim()) {
+                console.error("Input value is empty");
+                return; // Exit the function if input value is empty
+            }
+
+            // Send an AJAX POST request to your Spring Boot app to submit the input value
+            $.ajax({
+                type: "POST",
+                url: "/cricket/submitUrl", // Change this URL to match your Spring Boot endpoint
+                data: { urlValue: cleanedValue }, // Pass the cleaned URL value as data
+                success: function(response) {
+                    console.log("Success:", response);
+
+                    // Display the response on the page as a table
+                    displayTable(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+        }
+
+        // Function to display the JSON data as a table
+        function displayTable(jsonData) {
+            var responseContainer = document.getElementById("responseContainer");
+            responseContainer.innerHTML = ''; // Clear previous content
+
+            var table = document.createElement('table');
+            table.border = '1';
+
+            // Create table headers
+            var headers = Object.keys(jsonData);
+            var headerRow = table.insertRow();
+            headers.forEach(function(header) {
+                var th = document.createElement('th');
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+
+            // Create table rows with data
+            var dataRow = table.insertRow();
+            headers.forEach(function(header) {
+                var td = document.createElement('td');
+                td.textContent = jsonData[header];
+                dataRow.appendChild(td);
+            });
+
+            // Append the table to the response container
+            responseContainer.appendChild(table);
+        }
+    </script>
+</head>
+<body>
+
+<input type="text" id="urlInput1" name="URL" th:value="${urlValue}" />
+<button type="button" onclick="hello()">Submit</button>
+
+<!-- Container to display the response as a table -->
+<div id="responseContainer"></div>
+
+</body>
+</html>
