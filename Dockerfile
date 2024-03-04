@@ -1,29 +1,25 @@
-#FROM ubuntu:latest AS build
-#RUN apt-get update
-#RUN apt-get install openjdk-17-jdk -y
-#RUN apt-get install maven -y
-#COPY . .
-#RUN mvn package --no-daemon
-# Use an OpenJDK base image with Maven pre-installed
-FROM maven:latest AS build
+FROM ubuntu:latest
 
-# Set the working directory
+# Use a multi-stage build to build the application
+FROM maven:latest AS builder
+
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the project files into the container
-COPY src .
+# Copy the Maven project files into the container
+COPY . .
 
 # Build the Maven project
-RUN mvn package --no-daemon
+RUN mvn package
 
-# Switch to a lighter image for the runtime environment
-FROM openjdk:17-jdk-slim
+# Create the final runtime image
+FROM openjdk:17-jdk-alpine
 
-# Expose port 8080 (assuming your Spring Boot application runs on this port)
-EXPOSE 8050
+# Set the working directory in the runtime image
+WORKDIR /app
 
-# Copy the built JAR file from the build stage into the runtime image
-COPY --from=target /target/app-1.jar app.jar
+# Copy the built JAR file from the builder stage into the runtime image
+COPY --from=builder /app/target/app-1.jar app.jar
 
 # Define the command to run your Spring Boot application
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+CMD ["java", "-jar", "app.jar"]

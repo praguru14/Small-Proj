@@ -7,20 +7,18 @@
     import org.springframework.web.bind.annotation.*;
     import org.springframework.web.servlet.ModelAndView;
 
-    @Controller
+    @RestController
     @RequestMapping("/cricket")
     public class CricbuzzAPIController {
 
         @Autowired
         CricketServices cricketServices;
         @GetMapping("/link")
-        @ResponseBody
         public ResponseEntity<String> getData(){
             return cricketServices.getApiData();
         }
 
         @GetMapping("/live")
-        @ResponseBody
         public ResponseEntity<String> liveScores(@RequestParam String id){
             return cricketServices.liveScores(id);
         }

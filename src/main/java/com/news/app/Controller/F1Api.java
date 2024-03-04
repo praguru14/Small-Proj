@@ -28,6 +28,11 @@ public class F1Api{
 //        return f1Service.fetchDataAndSave(apiUrl);
 //    }
 
+    @GetMapping("/")
+    public String welcome(){
+        return "Hello";
+    }
+
     @GetMapping("/byCountry")
     public ResponseEntity<F1Model[]> getByCountry(@RequestParam String country_name) {
         String apiUrlWithCountry = "https://api.openf1.org/v1/sessions?country_name=" + country_name;
