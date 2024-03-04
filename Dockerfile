@@ -23,7 +23,7 @@ FROM openjdk:17-jdk-slim
 EXPOSE 8050
 
 # Copy the built JAR file from the build stage into the runtime image
-COPY --from=target /target/demo-1.jar app.jar
+COPY --from=target /target/app-1.jar app.jar
 
 # Define the command to run your Spring Boot application
 ENTRYPOINT ["java", "-jar", "/app.jar"]
