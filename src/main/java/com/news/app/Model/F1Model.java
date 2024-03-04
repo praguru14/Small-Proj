@@ -1,10 +1,10 @@
         package com.news.app.Model;
 
         import com.fasterxml.jackson.annotation.JsonProperty;
-        import jakarta.persistence.Entity;
-        import jakarta.persistence.GeneratedValue;
-        import jakarta.persistence.GenerationType;
-        import jakarta.persistence.Id;
+//        import jakarta.persistence.Entity;
+//        import jakarta.persistence.GeneratedValue;
+//        import jakarta.persistence.GenerationType;
+//        import jakarta.persistence.Id;
         import lombok.Data;
         import org.springframework.stereotype.Component;
 
@@ -13,11 +13,11 @@
 
         @Data
         @Component
-        @Entity(name = "session")
+//        @Entity(name = "session")
         public class F1Model {
 
-                @Id
-                @GeneratedValue(strategy = GenerationType.AUTO)
+//                @Id
+//                @GeneratedValue(strategy = GenerationType.AUTO)
                 private UUID id;
 
                 @JsonProperty("location")      
