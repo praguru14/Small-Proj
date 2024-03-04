@@ -11,7 +11,7 @@ FROM maven:latest AS build
 WORKDIR /app
 
 # Copy the project files into the container
-COPY . .
+COPY src .
 
 # Build the Maven project
 RUN mvn package --no-daemon
